@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Society portal - sign in</title>
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+    <div class="login-wrap">
+    <form id="login-form" class="card login-card">
+      <h1>Society portal</h1>
+      <p class="subtitle">Sign in to continue</p>
+      <label>Username</label>
+      <input type="text" id="username" required />
+      <label>Password</label>
+      <input type="password" id="password" required />
+      <button type="submit">Sign in</button>
+      <p id="login-error" class="error"></p>
+      <p class="switch-link"><a href="signup.html">Need an account? Sign up</a></p>
+    </form>
+  </div>
+
+  <script src="auth.js"></script>
+  <script>
+    document.getElementById("login-form").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const username = document.getElementById("username").value;
+      const password = document.getElementById("password").value;
+      const errorEl = document.getElementById("login-error");
+      errorEl.textContent = "";
+
+      try {
+        const res = await fetch(`${API_BASE}/auth/login`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ username, password })
+        });
+        if (!res.ok) {
+          errorEl.textContent = "Invalid username or password";
+          return;
+        }
+        const session = await res.json();
+        saveSession(session);
+        window.location.href = "events.html";
+      } catch (err) {
+        errorEl.textContent = "Could not reach the server";
+      }
+    });
+  </script>
+</body>
+</html>

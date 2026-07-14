@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <title>Society portal — sign up</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="login-wrap">
+    <form id="signup-form" class="card login-card">
+      <h1>Create account</h1>
+      <p class="subtitle">Join the society</p>
+      <label>Full name</label>
+      <input type="text" id="fullName" required />
+      <label>Email</label>
+      <input type="email" id="email" required />
+      <label>Student number</label>
+      <input type="text" id="studentNumber" required />
+      <label>Username</label>
+      <input type="text" id="username" required />
+      <label>Password</label>
+      <input type="password" id="password" required />
+      <button type="submit">Sign up</button>
+      <p id="signup-error" class="error"></p>
+      <p id="signup-success" class="success"></p>
+      <p class="switch-link"><a href="signin.html">Already have an account? Sign in</a></p>
+    </form>
+  </div>
+
+  <script src="auth.js"></script>
+  <script>
+    document.getElementById("signup-form").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const errorEl = document.getElementById("signup-error");
+      const successEl = document.getElementById("signup-success");
+      errorEl.textContent = "";
+      successEl.textContent = "";
+
+      const payload = {
+        fullName: document.getElementById("fullName").value,
+        email: document.getElementById("email").value,
+        studentNumber: document.getElementById("studentNumber").value,
+        username: document.getElementById("username").value,
+        password: document.getElementById("password").value
+      };
+
+      try {
+        const res = await fetch(`${API_BASE}/auth/register`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload)
+        });
+        if (!res.ok) {
+          const data = await res.json();
+          errorEl.textContent = data.message || "Could not create account";
+          return;
+        }
+        successEl.textContent = "Account created! Redirecting to sign in...";
+        setTimeout(() => { window.location.href = "signin.html"; }, 1200);
+      } catch (err) {
+        errorEl.textContent = "Could not reach the server";
+      }
+    });
+  </script>
+</body>
+</html>
