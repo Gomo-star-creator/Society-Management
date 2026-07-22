@@ -1,14 +1,14 @@
 # Student Society Management App
 
-A full-stack web application for managing a student society's members, events, and attendance — built with **ASP.NET Core**, **MySQL**, and a vanilla **HTML/CSS/JS** front end. Includes role-based access: admins manage events and view attendance, members view events and mark their own attendance.
+While volunteering at ITime as an administator I got the idea to build a full-stack web application for managing a student society in a singular place to update our documentation. The application manages the society's members, events, and attendance - built with **ASP.NET Core**, **MySQL**, and a vanilla **HTML/CSS/JS** front end. Includes role-based access: admins manage events and view attendance, members view events and mark their own attendance.
 
 ## Features
 
-- **Authentication** — sign up as a member, sign in, role-based session handling
-- **Members** — view all society members
-- **Events** — admins create events; all users view them
-- **Attendance** — members toggle their own attendance per event; admins view attendance for any event
-- **Role-based UI** — the frontend renders different views for Admin vs Member without any page reload
+- **Authentication** - sign up as a member, sign in, role-based session handling
+- **Members** - view all society members
+- **Events** - admins create events; all users view them
+- **Attendance** - members toggle their own attendance per event; admins view attendance for any event
+- **Role-based UI** - the frontend renders different views for Admin vs Member without any page reload
 
 ## Tech stack
 
@@ -19,38 +19,6 @@ A full-stack web application for managing a student society's members, events, a
 | Auth | BCrypt password hashing |
 | Frontend | HTML, CSS, vanilla JavaScript (fetch API) |
 | API docs | Swagger / OpenAPI |
-
-## Architecture
-
-```
-MySQL database  <---- connection string (EF Core) ---->  ASP.NET Core API  <---- fetch + CORS ---->  Frontend (browser)
-   SocietyDB              port 3306                    Controllers + EF Core        port 7001              HTML/CSS/JS
-```
-
-The frontend never talks to the database directly — all data flows through the API, which is the only layer with a MySQL connection string.
-
-## Project structure
-
-```
-society-management/
-├── SocietyApi/              # ASP.NET Core Web API
-│   ├── Controllers/         # MembersController, EventsController, AttendanceController, AuthController
-│   ├── Models/               # Member, Event, Attendance, User
-│   ├── Data/                 # SocietyDbContext
-│   └── appsettings.json     # connection string (not committed with real credentials)
-├── SocietyFrontend/          # Static frontend
-│   ├── assets/                # images
-│   ├── index.html            # landing page
-│   ├── signin.html
-│   ├── signup.html
-│   ├── events.html
-│   ├── attendance.html
-│   ├── style.css
-│   ├── auth.js
-│   ├── events.js
-│   └── attendance.js
-└── README.md
-```
 
 ## Getting started
 
@@ -112,10 +80,10 @@ Open `SocietyFrontend/index.html` with a local server (e.g. VS Code's **Live Ser
 
 ## Known limitations / next steps
 
-- Login currently returns role info without a secure token — a production version would use JWT so the API can verify requests rather than trusting the frontend.
+- Login currently returns role info without a secure token - a production version would use JWT so the API can verify requests rather than trusting the frontend.
 - Admin accounts must be created via the seed endpoint or directly in the database; there's no in-app "promote to admin" feature yet.
-- No automated tests yet — a good next addition for the portfolio version.
+- No automated tests yet - a good next addition for the portfolio version.
 
 ## Author
 
-Gomolemo Motsebe — built as a portfolio project demonstrating ASP.NET Core, MySQL, and full-stack web development.
+Gomolemo Motsebe - built as a portfolio project demonstrating ASP.NET Core, MySQL, and full-stack web development.
